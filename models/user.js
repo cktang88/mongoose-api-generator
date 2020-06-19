@@ -6,6 +6,7 @@ module.exports = new Schema(
     content: String,
     created: { type: Date, default: Date.now },
     name: String,
+    email: String,
   },
   { strict: false }
 );

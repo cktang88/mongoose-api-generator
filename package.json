@@ -8,6 +8,7 @@
     "express": "^4.17.1",
     "mongoose": "^5.9.19",
     "node-dev": "^4.0.0",
+    "pino-http": "^5.2.0",
     "require-dir": "^1.2.0"
   },
   "devDependencies": {},
