@@ -2,10 +2,7 @@ const mongoose = require("mongoose");
 // disable auto-pluralizing collection names
 mongoose.pluralize(null);
 
-mongoose.connect(
-  "mongodb://justfortuts:a1b2c3d4@ds155461.mlab.com:55461/justfortuts",
-  { useNewUrlParser: true }
-);
+mongoose.connect(process.env.MONGODB_URL, { useNewUrlParser: true });
 
 const requireDir = require("require-dir");
 const files = requireDir("./models");

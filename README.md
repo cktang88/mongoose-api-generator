@@ -4,6 +4,11 @@ Automatically generate a REST API from Mongoose models.
 
 Creates a hot-reloading server that auto-updates whenever models are updated or created.
 
+## Dev
+
+Create a `.env` file with `MONGODB_URL={url_of_mongo_database}`.
+Then:
+
 ```
 yarn install
 yarn start
@@ -11,8 +16,8 @@ yarn start
 
 ## Adding a model
 
-Simply a new file to `./models`.
-The generated URL paths will be:
+Simply create a new file that exports a mongoose model to `./models`.
+The generated URL endpoints will be:
 
 Create:
 
