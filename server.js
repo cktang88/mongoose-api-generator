@@ -2,8 +2,8 @@ require("dotenv").config();
 
 const express = require("express");
 const bodyParser = require("body-parser");
-const models = require("./db");
-const crud = require("./crud");
+const db = require("./system/generator/db");
+const api = require("./system/generator/api");
 const pino = require("pino-http")();
 
 const passport = require("passport");
@@ -18,6 +18,8 @@ const port = process.env.PORT || 5000;
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 // app.use(pino);
+
+let router = express.Router();
 
 /* POST login. */
 router.post("/login", function (req, res, next) {
@@ -47,9 +49,9 @@ router.get("/profile", function (req, res, next) {
   res.send(req.user);
 });
 
-// Autogenerate CRUD endpoints for each model schema
-models.forEach((model) => {
-  app.use(`/api/${model.collection.collectionName}`, crud(model));
+// Autogenerate API endpoints for each model schema
+db.forEach((model) => {
+  app.use(`/api/${model.collection.collectionName}`, api(model));
 });
 
 // Server
