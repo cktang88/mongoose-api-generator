@@ -8,7 +8,12 @@ Creates a hot-reloading server that auto-updates whenever models are updated or 
 
 ## Dev
 
-Create a `.env` file with `MONGODB_URL={url_of_mongo_database}`.
+Create a `.env` file with
+
+```
+MONGODB_URL={url_of_mongo_database}
+```
+
 Then:
 
 ```
