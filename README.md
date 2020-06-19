@@ -4,6 +4,8 @@ Automatically generate a REST API from Mongoose models.
 
 Creates a hot-reloading server that auto-updates whenever models are updated or created.
 
+:warning: This code is not recommended for production use since there is no authentication on any endpoints!
+
 ## Dev
 
 Create a `.env` file with `MONGODB_URL={url_of_mongo_database}`.
