@@ -11,7 +11,7 @@ mongoose.connect(
 const requireDir = require("require-dir");
 const files = requireDir("./models");
 
-const models = Object.entries(files).map((name, model) =>
+const models = Object.entries(files).map(([name, model]) =>
   mongoose.model(name, model)
 );
 
