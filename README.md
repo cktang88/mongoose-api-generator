@@ -22,6 +22,7 @@ The generated URL endpoints will be:
 Create:
 
 - `POST /api/{fileName}`
+  - Inputs are automatically validated using the Mongoose Schema. Errors are returned to the client with a `400` HTTP Error code.
 
 List all
 

@@ -6,5 +6,5 @@ module.exports = new Schema(
     content: String,
     created: { type: Date, default: Date.now },
   },
-  { strict: false }
+  { strict: "throw" }
 );

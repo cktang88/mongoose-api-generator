@@ -8,5 +8,5 @@ module.exports = new Schema(
     name: String,
     email: String,
   },
-  { strict: false }
+  { strict: "throw" }
 );

@@ -8,5 +8,5 @@ module.exports = new Schema(
     created: { type: Date, default: Date.now },
     name: String,
   },
-  { strict: false }
+  { strict: "throw" }
 );
