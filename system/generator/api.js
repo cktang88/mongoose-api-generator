@@ -68,14 +68,25 @@ const generateResource = (Collection, allowed) => {
 
   // returns a custom middleware
   const checkOwnerPermission = (permission) => {
-    return (req, res, next) => {
+    return async (req, res, next) => {
       if (permission === NONE) {
         res.status(400).send("This endpoint is disabled.").end();
       } else if (permission === OWNER) {
-        // special thing happens
-        jwtAuthGuard(req, res, next);
-        console.log(req.id);
-        res.status(400).send("computing space...").end();
+        let obj;
+        try {
+          obj = await Collection.findById(req.params._id);
+        } catch (err) {
+          console.log(err);
+          res.status(400).send("Invalid object ID").end();
+          return;
+        }
+        if (obj.owner_id == req.user.id) {
+          // allow access if you're owner
+          next();
+        } else {
+          // if you're not owner, prevent access
+          res.status(400).send("Not allowed to access this object.").end();
+        }
       } else {
         // if public or omitted, just passthrough
         next();
@@ -88,7 +99,7 @@ const generateResource = (Collection, allowed) => {
   // everyone allowed to create?
   router.post("/", create);
   // list all is special - will actually modify to filter all that is by owner only...
-  router.get("/", checkOwnerPermission(allowed.list), list);
+  router.get("/", list);
 
   router.get("/:_id", checkOwnerPermission(allowed.get), get);
   router.put("/:_id", checkOwnerPermission(allowed.update), update);
@@ -103,6 +114,7 @@ let apiRouter = Router();
 models.forEach((model) => {
   const name = model.collection.collectionName;
   const permissions = APIPermissions[name];
+  // the jwtAuthGuard populates `req.user` for all child routes
   apiRouter.use(`/${name}`, jwtAuthGuard, generateResource(model, permissions));
 });
 module.exports = apiRouter;

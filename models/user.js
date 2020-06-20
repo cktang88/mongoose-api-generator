@@ -7,6 +7,7 @@ const schema = new Schema(
     created: { type: Date, default: Date.now },
     name: String,
     email: String,
+    owner_id: String,
   },
   { strict: "throw" }
 );

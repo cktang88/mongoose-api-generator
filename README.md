@@ -10,13 +10,13 @@ Creates a hot-reloading server that auto-updates whenever models are updated or 
 
 Create a `.env` file with
 
-```
+```bash
 MONGODB_URL={url_of_mongo_database}
 ```
 
 Then:
 
-```
+```bash
 yarn install
 yarn start
 ```
@@ -46,6 +46,37 @@ Update one
 Delete one
 
 - `DELETE /api/{fileName}/:id`
+
+## Implementing permissions
+
+- need to have an `owner_id: String` field in the Mongoose Schema.
+- Export a `permissions` object that may override `list/get/update/remove` fields (by default all of these are set to `PUBLIC`)
+
+- Example:
+
+```js
+const { Schema } = require("mongoose");
+const { PUBLIC, OWNER, NONE } = require("../system/auth/permissions");
+const schema = new Schema(
+  {
+    width: Number,
+    height: Number,
+    created: { type: Date, default: Date.now },
+    name: String,
+    owner_id: String,
+  },
+  { strict: "throw" }
+);
+
+const permissions = {
+  list: PUBLIC,
+  get: PUBLIC,
+  update: OWNER,
+  remove: NONE,
+};
+
+module.exports = { schema, permissions };
+```
 
 ## TODOs
 
