@@ -8,7 +8,7 @@ const loginSchema = new Schema(
     email: { type: String, required: true },
     password: { type: String, required: true },
   },
-  { strict: "throw" }
+  { strict: "throw", toObject: { versionKey: false } }
 );
 
 module.exports = mongoose.model("login", loginSchema);

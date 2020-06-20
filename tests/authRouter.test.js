@@ -43,3 +43,60 @@ describe("GET /auth/profile", function () {
     request(app).get("/auth/profile").expect(401, done);
   });
 });
+
+describe("POST /auth/signup", function () {
+  it("invalid input returns 400", function (done) {
+    request(app)
+      .post("/auth/signup")
+      .send({ name: "john" })
+      .set("Accept", "application/json")
+      .expect(400, done);
+  });
+  it("correct input returns 200", function (done) {
+    request(app)
+      .post("/auth/signup")
+      .send({
+        username: "john",
+        email: "john@gmail.com",
+        password: "helloworld",
+      })
+      .set("Content-Type", "application/json")
+      .set("Accept", "application/json")
+      .expect(function (res) {
+        // patch password
+        res.body.password = "pw";
+        res.body._id = "id";
+        res.body.created = "<date>";
+      })
+      .expect(
+        201,
+        {
+          _id: "id",
+          username: "john",
+          email: "john@gmail.com",
+          password: "pw",
+          created: "<date>",
+        },
+        done
+      );
+  });
+});
+
+describe("POST /auth/login", function () {
+  it("returns 200", function (done) {
+    request(app)
+      .post("/auth/login")
+      .send({
+        email: "john@gmail.com",
+        password: "helloworld",
+      })
+      .set("Accept", "application/json")
+      .expect(
+        200,
+        {
+          token: "jwt hurray",
+        },
+        done
+      );
+  });
+});

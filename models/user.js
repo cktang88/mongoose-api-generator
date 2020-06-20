@@ -9,7 +9,7 @@ const schema = new Schema(
     email: String,
     owner_id: String,
   },
-  { strict: "throw" }
+  { strict: "throw", toObject: { versionKey: false } }
 );
 
 const permissions = {
