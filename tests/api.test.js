@@ -121,6 +121,28 @@ describe("TEST /api/post", function () {
       );
   });
 
+  it("get all", function (done) {
+    request(app)
+      .get(`/api/post`)
+      .set("Authorization", jwt)
+      .expect((res) => {
+        res.body.forEach((e) => delete e.created);
+      })
+      .expect(
+        200,
+        [
+          {
+            _id: created_id,
+            title: "apost",
+            content: "words",
+            owner_id: owner_id,
+            __v: 0,
+          },
+        ],
+        done
+      );
+  });
+
   it("update one", function (done) {
     request(app)
       .patch(`/api/post/${created_id}`)

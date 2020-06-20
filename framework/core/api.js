@@ -23,12 +23,12 @@ const generateResource = (Collection, allowed) => {
   const list = async (req, res) => {
     let query = res.locals.query || {};
 
-    if (permission === NONE) {
+    if (allowed.list === NONE) {
       res.status(400).send("This endpoint is disabled.").end();
       return;
     }
     // filter by owner if permission set
-    if (permission === OWNER) {
+    if (allowed.list === OWNER) {
       query = { owner_id: req.user._id, ...query };
     }
     await Collection.find(query, (e, result) => {
