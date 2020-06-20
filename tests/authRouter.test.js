@@ -76,6 +76,7 @@ describe("POST /auth/signup", function () {
           email: "john@gmail.com",
           password: "pw",
           created: "<date>",
+          __v: 0,
         },
         done
       );
@@ -91,10 +92,14 @@ describe("POST /auth/login", function () {
         password: "helloworld",
       })
       .set("Accept", "application/json")
+      .expect((res) => {
+        if (res.body.token) res.body.token = "Bearer tokenabc";
+      })
       .expect(
         200,
         {
-          token: "jwt hurray",
+          success: true,
+          token: "Bearer tokenabc",
         },
         done
       );
