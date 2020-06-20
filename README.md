@@ -22,8 +22,6 @@ yarn install
 yarn start
 ```
 
-<<<<<<< HEAD
-
 ## Authentication
 
 - Sign up:
@@ -44,7 +42,6 @@ yarn start
 
 - # View user profile via `GET /auth/profile`
   API calls can be made using `curl`, [Httpie](https://httpie.org/), or a full-fledged API client like [Insomnia](https://insomnia.rest/) or [Postman](https://www.postman.com/).
-  > > > > > > > 8d01837d53987ac29a901a6836c37abd802158ea
 
 ## Adding a model
 
