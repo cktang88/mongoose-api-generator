@@ -21,6 +21,8 @@ yarn install
 yarn start
 ```
 
+API calls can be made using `curl`, [Httpie](https://httpie.org/), or a full-fledged API client like [Insomnia](https://insomnia.rest/) or [Postman](https://www.postman.com/).
+
 ## Adding a model
 
 Simply create a new file that exports a mongoose model to `./models`.
@@ -69,8 +71,14 @@ Delete one
 
 ## Implementing permissions
 
+Permissions enable you to implement granular restrictions on who can perform an action on a resource.
+
 - need to have an `owner_id: String` field in the Mongoose Schema. This field is automatically populated whenever a new object is created via the API endpoint.
 - Export a `permissions` object that may override `list/get/update/remove` fields (by default all of these are set to `PUBLIC`)
+  - possible values (exported from `"../system/auth/permissions"`):
+    - `PUBLIC`: anyone can perform this action on this resource
+    - `OWNER`: only the creator of the resource can perform this action
+    - `NONE`: this action is disabled for this object
 
 - Example:
 
@@ -103,9 +111,7 @@ module.exports = { schema, permissions };
 
 ## TODOs
 
-1. config to disable some endpoints for a resource
-2. config for auth!
-   - enable extensibility for login object? (eg. phone num, descript, other meta fields)
-3. sanitize all inputs in express middleware...
-4. support listing with filtering?
-5. auto-add `owner_id: String` and `{ strict: "throw" }` using Mongoose discriminators for schema inheritance?
+- enable extensibility for login object? (eg. phone num, descript, other meta fields)
+- sanitize all inputs in express middleware...
+- support listing with filtering?
+- auto-add `owner_id: String` and `{ strict: "throw" }` using Mongoose discriminators for schema inheritance?
