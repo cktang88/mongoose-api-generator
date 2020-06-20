@@ -2,15 +2,21 @@ const requireDir = require("require-dir");
 const mongoose = require("mongoose");
 // disable auto-pluralizing collection names
 mongoose.pluralize(null);
+// fix deprecation warnings
+mongoose.set("useNewUrlParser", true);
+mongoose.set("useFindAndModify", false);
+mongoose.set("useCreateIndex", true);
+mongoose.set("useUnifiedTopology", true);
 
 mongoose.connect(process.env.MONGODB_URL, { useNewUrlParser: true });
 
 // custom user models
-const customModels = requireDir("../../models");
-const exportedModels = Object.entries(customModels).map(([name, model]) => {
+const files = requireDir("../../models");
+const APIPermissions = {};
+const models = Object.entries(files).map(([name, { schema, permissions }]) => {
   console.log(`Discovered: '${name}'`);
-  // console.log(model);
-  return mongoose.model(name, model);
+  APIPermissions[name] = permissions;
+  return mongoose.model(name, schema);
 });
 
-module.exports = exportedModels;
+module.exports = { models, APIPermissions };
