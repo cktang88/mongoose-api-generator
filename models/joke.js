@@ -1,7 +1,7 @@
 const { Schema } = require("mongoose");
 const { PUBLIC, OWNER, NONE } = require("../system/auth/permissions");
 
-module.exports = new Schema(
+const schema = new Schema(
   {
     content: String,
     title: String,
