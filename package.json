@@ -24,7 +24,8 @@
   },
   "scripts": {
     "start": "node-dev server.js",
-    "test": "jest"
+    "test": "jest --silent --watch",
+    "test-debug": "jest --detectOpenHandles --runInBand"
   },
   "keywords": [],
   "author": "",

@@ -68,7 +68,7 @@ Get one
 
 Update one
 
-- `PUT /api/{fileName}/:id`
+- `PATCH /api/{fileName}/:id`
 
 Delete one
 

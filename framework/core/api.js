@@ -83,7 +83,10 @@ const generateResource = (Collection, allowed) => {
   const checkOwnerPermission = (permission) => {
     return async (req, res, next) => {
       if (permission === NONE) {
-        res.status(401).json("This endpoint is disabled.").end();
+        res
+          .status(405)
+          .json("This action is not allowed for this resource.")
+          .end();
       } else if (permission === OWNER) {
         let obj;
         try {
@@ -115,7 +118,7 @@ const generateResource = (Collection, allowed) => {
   router.get("/", list);
 
   router.get("/:_id", checkOwnerPermission(allowed.get), get);
-  router.put("/:_id", checkOwnerPermission(allowed.update), update);
+  router.patch("/:_id", checkOwnerPermission(allowed.update), update);
   router.delete("/:_id", checkOwnerPermission(allowed.remove), remove);
 
   return router;

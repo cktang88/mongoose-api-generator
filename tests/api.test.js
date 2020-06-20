@@ -124,18 +124,31 @@ describe("TEST /api/post", function () {
   it("update one", function (done) {
     request(app)
       .patch(`/api/post/${created_id}`)
-      .send({})
+      .send({ content: "words2" })
       .set("Authorization", jwt)
-      .expect(200, [], done);
+      .expect((res) => {
+        delete res.body.created;
+        delete res.body.__v;
+      })
+      .expect(
+        200,
+        {
+          _id: created_id,
+          title: "apost",
+          content: "words2",
+          owner_id: owner_id,
+        },
+        done
+      );
   });
 
   it("remove one", function (done) {
     request(app)
       .delete(`/api/post/${created_id}`)
       .set("Authorization", jwt)
-      .expect(401, '"This endpoint is disabled."', done);
+      .expect(405, '"This action is not allowed for this resource."', done);
   });
-  //   beforeEach((done) => {
+  //   beforeAll((done) => {
   //     // test that permissions are respected by a non-owner user
   //     const email2 = randEmail();
   //     // sign up and log in with a user
