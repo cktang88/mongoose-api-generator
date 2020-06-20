@@ -17,6 +17,7 @@
   },
   "devDependencies": {
     "dotenv": "^8.2.0",
+    "husky": "^4.2.5",
     "jest": "^26.0.1",
     "mongodb-memory-server": "^6.6.1",
     "node-dev": "^4.0.0",
@@ -24,10 +25,15 @@
   },
   "scripts": {
     "start": "node-dev server.js",
-    "test": "jest --silent --watch",
+    "test": "jest --silent",
     "test-debug": "jest --detectOpenHandles --runInBand"
   },
   "keywords": [],
-  "author": "",
-  "license": "ISC"
+  "author": "cktang88",
+  "license": "MIT",
+  "husky": {
+    "hooks": {
+      "pre-commit": "yarn test"
+    }
+  }
 }
