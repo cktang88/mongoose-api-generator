@@ -1,5 +1,5 @@
 const { Schema } = require("mongoose");
-const { PUBLIC, OWNER, NONE } = require("../system/auth/permissions");
+const { PUBLIC, OWNER, NONE } = require("../framework/auth/permissions");
 
 const schema = new Schema(
   {
@@ -8,7 +8,7 @@ const schema = new Schema(
     created: { type: Date, default: Date.now },
     owner_id: String,
   },
-  { strict: "throw" }
+  { strict: "throw", toObject: { versionKey: false } }
 );
 const permissions = {
   list: PUBLIC,
@@ -16,5 +16,4 @@ const permissions = {
   update: OWNER,
   remove: NONE,
 };
-
 module.exports = { schema, permissions };

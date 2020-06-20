@@ -2,9 +2,7 @@ const passport = require("passport");
 const passportJWT = require("passport-jwt");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-
-const Login = require("../models/login");
-
+const Login = require("./models/login");
 // const LocalStrategy = require("passport-local").Strategy;
 
 const { JWT_SECRET } = process.env;

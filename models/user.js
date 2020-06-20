@@ -1,5 +1,5 @@
 const { Schema } = require("mongoose");
-const { PUBLIC, OWNER, NONE } = require("../system/auth/permissions");
+const { PUBLIC, OWNER, NONE } = require("../framework/auth/permissions");
 
 const schema = new Schema(
   {
@@ -9,7 +9,7 @@ const schema = new Schema(
     email: String,
     owner_id: String,
   },
-  { strict: "throw" }
+  { strict: "throw", toObject: { versionKey: false } }
 );
 
 const permissions = {

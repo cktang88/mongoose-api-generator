@@ -6,21 +6,26 @@
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.19.0",
-    "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.9.19",
-    "node-dev": "^4.0.0",
     "passport": "^0.4.1",
     "passport-jwt": "^4.0.0",
     "passport-local": "^1.0.0",
     "pino-http": "^5.2.0",
     "require-dir": "^1.2.0"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "dotenv": "^8.2.0",
+    "jest": "^26.0.1",
+    "mongodb-memory-server": "^6.6.1",
+    "node-dev": "^4.0.0",
+    "supertest": "^4.0.2"
+  },
   "scripts": {
     "start": "node-dev server.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest --silent --watch",
+    "test-debug": "jest --detectOpenHandles --runInBand"
   },
   "keywords": [],
   "author": "",
