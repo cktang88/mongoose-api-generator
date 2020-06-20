@@ -20,15 +20,14 @@ beforeAll(async (done) => {
     useCreateIndex: true,
     useUnifiedTopology: true,
   });
-
   server = http.createServer(app);
-  await server.listen(done);
+  server.listen(done);
 });
 
 afterAll(async (done) => {
   await mongoose.disconnect();
   await mongoServer.stop();
-  await server.close(done);
+  server.close(done);
 });
 
 describe("...", () => {
