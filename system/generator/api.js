@@ -1,5 +1,5 @@
 const { Router } = require("express");
-const { models, APIPermissions } = require("./models");
+const { models, APIPermissions } = require("./db");
 const { jwtAuthGuard } = require("../auth/auth");
 const { PUBLIC, OWNER, NONE } = require("../auth/permissions");
 

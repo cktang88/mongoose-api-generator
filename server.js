@@ -14,7 +14,13 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 // app.use(pino);
 
+// subroutes
 app.use("/auth", authRouter);
 app.use("/api", apiRouter);
-// Server
-app.listen(port, () => console.log(`Listening on port ${port}`));
+
+// start server
+if (process.env.NODE_ENV !== "test")
+  app.listen(port, () => console.log(`Listening on port ${port}`));
+
+// for testing
+module.exports = app;

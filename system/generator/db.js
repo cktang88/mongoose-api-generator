@@ -3,12 +3,12 @@ const mongoose = require("mongoose");
 // disable auto-pluralizing collection names
 mongoose.pluralize(null);
 // fix deprecation warnings
-mongoose.set("useNewUrlParser", true);
-mongoose.set("useFindAndModify", false);
-mongoose.set("useCreateIndex", true);
-mongoose.set("useUnifiedTopology", true);
-
-mongoose.connect(process.env.MONGODB_URL, { useNewUrlParser: true });
+mongoose.connect(process.env.MONGODB_URL, {
+  useNewUrlParser: true,
+  useFindAndModify: false,
+  useCreateIndex: true,
+  useUnifiedTopology: true,
+});
 
 // custom user models
 const files = requireDir("../../models");
