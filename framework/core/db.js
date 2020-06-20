@@ -5,6 +5,7 @@ const path = require("path");
 // disable auto-pluralizing collection names
 mongoose.pluralize(null);
 // fix deprecation warnings
+console.log(`Connecting mongodb at ${process.env.MONGODB_URL}`);
 mongoose.connect(process.env.MONGODB_URL, {
   useNewUrlParser: true,
   useFindAndModify: false,
@@ -16,7 +17,6 @@ const modelsDir = path.resolve(".", process.env.MODELS_DIR || "models");
 console.log(modelsDir);
 // custom user models
 const files = requireDir(modelsDir);
-console.log(files);
 const APIPermissions = {};
 const models = Object.entries(files).map(([name, { schema, permissions }]) => {
   console.log(`Discovered: '${name}'`);

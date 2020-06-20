@@ -13,7 +13,7 @@ beforeAll(async (done) => {
   mongoServer = new MongoMemoryServer();
   const mongoUri = await mongoServer.getUri();
   process.env.MONGODB_URL = mongoUri;
-  mongoose = require("../system/generator/db").mongoose;
+  mongoose = require("../framework/core/db").mongoose;
   app = require("../server");
   server = http.createServer(app);
   server.listen(done);

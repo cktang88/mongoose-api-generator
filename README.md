@@ -79,7 +79,7 @@ Delete one
 
 ```js
 const { Schema } = require("mongoose");
-const { PUBLIC, OWNER, NONE } = require("../system/auth/permissions");
+const { PUBLIC, OWNER, NONE } = require("../framework/auth/permissions");
 const schema = new Schema(
   {
     width: Number,
@@ -107,9 +107,8 @@ module.exports = { schema, permissions };
 
 ## TODOs
 
-1. config to disable some endpoints for a resource
-2. config for auth!
-   - enable extensibility for login object? (eg. phone num, descript, other meta fields)
-3. sanitize all inputs in express middleware...
-4. support listing with filtering?
-5. auto-add `owner_id: String` and `{ strict: "throw" }` using Mongoose discriminators for schema inheritance?
+- enable extensibility for login object? (eg. phone num, descript, other meta fields)
+- sanitize all inputs in express middleware...
+- support listing with filtering?
+- auto-add `owner_id: String` and `{ strict: "throw", toObject: { versionKey: false } }` using Mongoose discriminators for schema inheritance?
+- enable disabling all auth for all endpoints via config var

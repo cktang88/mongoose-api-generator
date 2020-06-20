@@ -11,14 +11,13 @@ let mongoServer;
 
 beforeAll(async (done) => {
   // special patch
-  //   process.env.MODELS_DIR = "tests/test_models";
+  process.env.MODELS_DIR = "tests/test_models";
   mongoServer = new MongoMemoryServer();
   const mongoUri = await mongoServer.getUri();
   process.env.MONGODB_URL = mongoUri;
-  mongoose = require("../system/generator/db").mongoose;
+  mongoose = require("../framework/core/db").mongoose;
   app = require("../server");
-  server = http.createServer(app);
-  server.listen(done);
+  server = app.listen(done);
 });
 
 afterAll(async (done) => {
@@ -28,13 +27,11 @@ afterAll(async (done) => {
 });
 
 describe("TEST /api/post", function () {
-  //   it("not logged in", function (done) {
-  //     request(app).get("/api/user").expect(404, "hello", done);
-  //   });
-
   let jwt;
   // only applies to test below
   beforeEach(function (done) {
+    let { models } = require("../framework/core/db");
+    console.log(models);
     // sign up and log in with a user
     request(app)
       .post("/auth/signup")
@@ -58,6 +55,9 @@ describe("TEST /api/post", function () {
           .expect(200, done);
       });
   });
+  //   it("not logged in", function (done) {
+  //     request(app).get("/api/user").expect(404, "hello", done);
+  //   });
   it("logged in - 200", function (done) {
     request(app).get("/api/user").set("Authorization", jwt).expect(
       200,
