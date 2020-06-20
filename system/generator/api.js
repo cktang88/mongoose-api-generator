@@ -1,12 +1,14 @@
-const express = require("express");
+const { Router } = require("express");
+const models = require("./models");
+const { jwtAuthGuard } = require("../auth/auth");
 
-module.exports = (Collection) => {
+const generateResource = (Collection) => {
   const create = (req, res) => {
     const newEntry = req.body;
     Collection.create(newEntry, (e, newEntry) => {
       if (e) {
         console.log(`Error inserting: `, e.name, e.message);
-        res.status(400).send(e.message);
+        res.status(400).json(e.message);
       } else {
         res.send(newEntry);
       }
@@ -44,7 +46,7 @@ module.exports = (Collection) => {
     Collection.update({ _id: req.params._id }, { $set: changedEntry }, (e) => {
       if (e) {
         console.log(`Error updating: `, e.name, e.message);
-        res.status(400).send(e.name, e.message);
+        res.status(400).json(e.name, e.message);
       } else {
         res.send(newEntry);
       }
@@ -58,7 +60,7 @@ module.exports = (Collection) => {
     });
   };
 
-  let router = express.Router();
+  let router = Router();
 
   router.post("/", create);
   router.get("/", readMany);
@@ -68,3 +70,15 @@ module.exports = (Collection) => {
 
   return router;
 };
+
+let apiRouter = Router();
+
+// Autogenerate API endpoints for each model schema
+models.forEach((model) => {
+  apiRouter.use(
+    `/${model.collection.collectionName}`,
+    jwtAuthGuard,
+    generateResource(model)
+  );
+});
+module.exports = apiRouter;

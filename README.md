@@ -8,7 +8,12 @@ Creates a hot-reloading server that auto-updates whenever models are updated or 
 
 ## Dev
 
-Create a `.env` file with `MONGODB_URL={url_of_mongo_database}`.
+Create a `.env` file with
+
+```
+MONGODB_URL={url_of_mongo_database}
+```
+
 Then:
 
 ```
@@ -41,3 +46,10 @@ Update one
 Delete one
 
 - `DELETE /api/{fileName}/:id`
+
+## TODOs
+
+1. config to disable some endpoints for a resource
+2. config for auth!
+   - enable extensibility for login object? (eg. phone num, descript, other meta fields)
+3. sanitize all inputs in express middleware...

@@ -2,8 +2,8 @@ require("dotenv").config();
 
 const express = require("express");
 const bodyParser = require("body-parser");
-const models = require("./db");
-const crud = require("./crud");
+const apiRouter = require("./system/generator/api");
+const authRouter = require("./system/auth/authRouter");
 const pino = require("pino-http")();
 
 const app = express();
@@ -14,10 +14,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 // app.use(pino);
 
-// Autogenerate CRUD endpoints for each model schema
-models.forEach((model) => {
-  app.use(`/api/${model.collection.collectionName}`, crud(model));
-});
-
+app.use("/auth", authRouter);
+app.use("/api", apiRouter);
 // Server
 app.listen(port, () => console.log(`Listening on port ${port}`));
