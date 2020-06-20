@@ -24,7 +24,10 @@ const generateResource = (Collection, allowed) => {
     let query = res.locals.query || {};
 
     if (allowed.list === NONE) {
-      res.status(400).send("This endpoint is disabled.").end();
+      res
+        .status(405)
+        .json("This action is not allowed for this resource.")
+        .end();
       return;
     }
     // filter by owner if permission set
