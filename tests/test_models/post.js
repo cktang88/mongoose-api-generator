@@ -4,7 +4,7 @@ const { PUBLIC, OWNER, NONE } = require("../../framework/auth/permissions");
 const schema = new Schema(
   {
     content: String,
-    title: String,
+    title: { type: String, required: true },
     created: { type: Date, default: Date.now },
     owner_id: String,
   },

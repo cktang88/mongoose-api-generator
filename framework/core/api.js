@@ -15,7 +15,7 @@ const generateResource = (Collection, allowed) => {
         console.log(`Error inserting: `, e.name, e.message);
         res.status(400).json(e.message);
       } else {
-        res.send(newEntry);
+        res.status(201).send(newEntry);
       }
     });
   };
@@ -23,6 +23,14 @@ const generateResource = (Collection, allowed) => {
   const list = (req, res) => {
     let query = res.locals.query || {};
 
+    if (permission === NONE) {
+      res.status(400).send("This endpoint is disabled.").end();
+      return;
+    }
+    // filter by owner if permission set
+    if (permission === OWNER) {
+      query = { owner_id: req.user._id, ...query };
+    }
     Collection.find(query, (e, result) => {
       if (e) {
         res.status(500).send(e);
