@@ -16,5 +16,4 @@ const permissions = {
   update: OWNER,
   remove: NONE,
 };
-
 module.exports = { schema, permissions };

@@ -119,6 +119,7 @@ let apiRouter = Router();
 models.forEach((model) => {
   const name = model.collection.collectionName;
   const permissions = APIPermissions[name];
+  console.log(`creating API endpoints for /api/${name}`);
   // the jwtAuthGuard populates `req.user` for all child routes
   apiRouter.use(`/${name}`, jwtAuthGuard, generateResource(model, permissions));
 });

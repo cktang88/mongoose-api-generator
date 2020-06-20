@@ -1,4 +1,3 @@
-const requireDir = require("require-dir");
 const mongoose = require("mongoose");
 const path = require("path");
 
@@ -12,16 +11,30 @@ mongoose.connect(process.env.MONGODB_URL, {
   useCreateIndex: true,
   useUnifiedTopology: true,
 });
+
+const APIPermissions = {};
+
 // relative path to root of project
 const modelsDir = path.resolve(".", process.env.MODELS_DIR || "models");
-console.log(modelsDir);
-// custom user models
-const files = requireDir(modelsDir);
-const APIPermissions = {};
-const models = Object.entries(files).map(([name, { schema, permissions }]) => {
-  console.log(`Discovered: '${name}'`);
-  APIPermissions[name] = permissions;
-  return mongoose.model(name, schema);
-});
+
+const fs = require("fs");
+const files = fs.readdirSync(modelsDir);
+const models = files
+  .map((name) => path.parse(name).name)
+  .map((name) => {
+    const { schema, permissions } = require(`${modelsDir}/${name}`);
+    console.log(`Discovered: '${name}'`);
+    APIPermissions[name] = permissions;
+    return mongoose.model(name, schema);
+  });
+
+// *** doesn't work for tests... ***
+// const requireDir = require("require-dir");
+// const files = requireDir(modelsDir);
+// const models = Object.entries(files).map(([name, { schema, permissions }]) => {
+//   console.log(`Discovered: '${name}'`);
+//   APIPermissions[name] = permissions;
+//   return mongoose.model(name, schema);
+// });
 
 module.exports = { mongoose, models, APIPermissions };

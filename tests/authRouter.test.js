@@ -1,6 +1,5 @@
 const { MongoMemoryServer } = require("mongodb-memory-server");
 const request = require("supertest");
-const http = require("http");
 
 // May require additional time for downloading MongoDB binaries
 // jest.DEFAULT_TIMEOUT_INTERVAL = 600000;
@@ -10,13 +9,13 @@ let mongoose;
 let mongoServer;
 
 beforeAll(async (done) => {
+  process.env.MODELS_DIR = "tests/test_models";
   mongoServer = new MongoMemoryServer();
   const mongoUri = await mongoServer.getUri();
   process.env.MONGODB_URL = mongoUri;
   mongoose = require("../framework/core/db").mongoose;
   app = require("../server");
-  server = http.createServer(app);
-  server.listen(done);
+  server = app.listen(done);
 });
 
 afterAll(async (done) => {
