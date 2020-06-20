@@ -46,3 +46,10 @@ Update one
 Delete one
 
 - `DELETE /api/{fileName}/:id`
+
+## TODOs
+
+1. config to disable some endpoints for a resource
+2. config for auth!
+   - enable extensibility for login object? (eg. phone num, descript, other meta fields)
+3. sanitize all inputs in express middleware...

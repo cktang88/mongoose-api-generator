@@ -7,7 +7,7 @@ const generateResource = (Collection) => {
     Collection.create(newEntry, (e, newEntry) => {
       if (e) {
         console.log(`Error inserting: `, e.name, e.message);
-        res.status(400).send(e.message);
+        res.status(400).json(e.message);
       } else {
         res.send(newEntry);
       }
@@ -45,7 +45,7 @@ const generateResource = (Collection) => {
     Collection.update({ _id: req.params._id }, { $set: changedEntry }, (e) => {
       if (e) {
         console.log(`Error updating: `, e.name, e.message);
-        res.status(400).send(e.name, e.message);
+        res.status(400).json(e.name, e.message);
       } else {
         res.send(newEntry);
       }
