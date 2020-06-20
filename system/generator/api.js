@@ -15,7 +15,7 @@ const generateResource = (Collection) => {
     });
   };
 
-  const readMany = (req, res) => {
+  const list = (req, res) => {
     let query = res.locals.query || {};
 
     Collection.find(query, (e, result) => {
@@ -28,7 +28,7 @@ const generateResource = (Collection) => {
     });
   };
 
-  const readOne = (req, res) => {
+  const get = (req, res) => {
     const { _id } = req.params;
 
     Collection.findById(_id, (e, result) => {
@@ -63,8 +63,8 @@ const generateResource = (Collection) => {
   let router = Router();
 
   router.post("/", create);
-  router.get("/", readMany);
-  router.get("/:_id", readOne);
+  router.get("/", list);
+  router.get("/:_id", get);
   router.put("/:_id", update);
   router.delete("/:_id", remove);
 

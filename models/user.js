@@ -1,5 +1,5 @@
-const mongoose = require("mongoose");
-const Schema = mongoose.Schema;
+const { Schema } = require("mongoose");
+const { PUBLIC, OWNER, NONE } = require("../system/auth/permissions");
 
 module.exports = new Schema(
   {
@@ -10,3 +10,12 @@ module.exports = new Schema(
   },
   { strict: "throw" }
 );
+
+const permissions = {
+  list: PUBLIC,
+  get: PUBLIC,
+  update: OWNER,
+  remove: NONE,
+};
+
+module.exports = { schema, permissions };
