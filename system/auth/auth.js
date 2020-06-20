@@ -5,10 +5,7 @@ const jwt = require("jsonwebtoken");
 
 const Login = require("../models/login");
 
-const ExtractJWT = passportJWT.ExtractJwt;
-
 // const LocalStrategy = require("passport-local").Strategy;
-const JWTStrategy = passportJWT.Strategy;
 
 const { JWT_SECRET } = process.env;
 
@@ -60,12 +57,12 @@ const login = async ({ email, password }, res) => {
 };
 
 const opts = {
-  jwtFromRequest: ExtractJWT.fromAuthHeaderAsBearerToken(),
+  jwtFromRequest: passportJWT.ExtractJwt.fromAuthHeaderAsBearerToken(),
   secretOrKey: JWT_SECRET,
 };
 passport.use(
-  new JWTStrategy(opts, (jwtPayload, cb) =>
-    Login.findOneById(jwtPayload.id)
+  new passportJWT.Strategy(opts, (jwtPayload, cb) =>
+    Login.findById(jwtPayload.id)
       .then((user) => {
         return cb(null, user);
       })
@@ -79,4 +76,5 @@ passport.use(
 module.exports = {
   signup,
   login,
+  jwtGuard: passport.authenticate("jwt", { session: false }),
 };

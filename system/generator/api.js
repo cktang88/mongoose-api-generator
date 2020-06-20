@@ -1,5 +1,6 @@
 const { Router } = require("express");
 const models = require("./models");
+const { jwtGuard } = require("../auth/auth");
 
 const generateResource = (Collection) => {
   const create = (req, res) => {
@@ -71,8 +72,13 @@ const generateResource = (Collection) => {
 };
 
 let apiRouter = Router();
+
 // Autogenerate API endpoints for each model schema
 models.forEach((model) => {
-  apiRouter.use(`/${model.collection.collectionName}`, generateResource(model));
+  apiRouter.use(
+    `/${model.collection.collectionName}`,
+    jwtGuard,
+    generateResource(model)
+  );
 });
 module.exports = apiRouter;
