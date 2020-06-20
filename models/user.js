@@ -1,5 +1,5 @@
 const { Schema } = require("mongoose");
-const { PUBLIC, OWNER, NONE } = require("../system/auth/permissions");
+const { PUBLIC, OWNER, NONE } = require("../framework/auth/permissions");
 
 const schema = new Schema(
   {

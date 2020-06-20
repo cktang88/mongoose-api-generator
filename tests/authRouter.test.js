@@ -8,7 +8,6 @@ let server;
 let app;
 let mongoose;
 let mongoServer;
-const opts = { useMongoClient: true }; // remove this option if you use mongoose 5 and above
 
 beforeAll(async (done) => {
   mongoServer = new MongoMemoryServer();
@@ -24,14 +23,6 @@ afterAll(async (done) => {
   await mongoose.disconnect();
   await mongoServer.stop();
   server.close(done);
-});
-
-describe("...", () => {
-  it("...", async () => {
-    const User = mongoose.model("User", new mongoose.Schema({ name: String }));
-    const count = await User.countDocuments();
-    expect(count).toEqual(0);
-  });
 });
 
 describe("POST /auth/signup", function () {

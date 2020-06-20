@@ -2,8 +2,8 @@ require("dotenv").config();
 
 const express = require("express");
 const bodyParser = require("body-parser");
-const apiRouter = require("./system/generator/api");
-const authRouter = require("./system/auth/authRouter");
+const authRouter = require("./framework/auth/authRouter");
+const apiRouter = require("./framework/core/api");
 const pino = require("pino-http")();
 
 const app = express();

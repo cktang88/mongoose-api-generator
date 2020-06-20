@@ -9,7 +9,6 @@ const app = require("../server");
 // jest.DEFAULT_TIMEOUT_INTERVAL = 600000;
 let server;
 let mongoServer;
-const opts = { useMongoClient: true }; // remove this option if you use mongoose 5 and above
 
 beforeAll(async (done) => {
   mongoServer = new MongoMemoryServer();
