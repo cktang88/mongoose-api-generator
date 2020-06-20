@@ -12,6 +12,7 @@ Create a `.env` file with
 
 ```bash
 MONGODB_URL={url_of_mongo_database}
+JWT_SECRET = '<signing_secret>'
 ```
 
 Then:
@@ -58,6 +59,7 @@ Delete one
     {"username": "bob", "email": "bob@gmail.com", "password": "badpw"}
     ```
 - Login:
+
   - `POST /auth/login`
   - Sample request body:
     ```
@@ -99,6 +101,7 @@ module.exports = { schema, permissions };
 ```
 
 ## Tech used
+
 - Mongoose, Express, Passport
 
 ## TODOs
