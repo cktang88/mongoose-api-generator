@@ -11,7 +11,7 @@ Creates a hot-reloading server that auto-updates whenever models are updated or 
 Create a `.env` file with
 
 ```bash
-MONGODB_URL={url_of_mongo_database}
+MONGODB_URL='<url_of_mongo_database>'
 JWT_SECRET = '<signing_secret>'
 ```
 
@@ -21,6 +21,8 @@ Then:
 yarn install
 yarn start
 ```
+
+- API calls can be made using `curl`, [Httpie](https://httpie.org/), or a full-fledged API client like [Insomnia](https://insomnia.rest/) or [Postman](https://www.postman.com/).
 
 ## Authentication
 
@@ -41,7 +43,6 @@ yarn start
   - Pass the token in the `Authorization` HTTP header for each subsequent API request.
 
 - View user profile via `GET /auth/profile`
-  API calls can be made using `curl`, [Httpie](https://httpie.org/), or a full-fledged API client like [Insomnia](https://insomnia.rest/) or [Postman](https://www.postman.com/).
 
 ## Adding a model
 
