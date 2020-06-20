@@ -40,7 +40,7 @@ yarn start
     - returns a JWT token, eg. `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlZWQ3OWM1N2MxZmEzNzExODZlZjljOSIsInVzZXJuYW1lIjoiYWIiLCJpYXQiOjE1OTI2MjI1MDAsImV4cCI6MTU5MjY1ODUwMH0.-eFJ1FcotHsjtmgUaE3f-6fFz_7y8c2dCNqhH8E5S6A`
   - Pass the token in the `Authorization` HTTP header for each subsequent API request.
 
-- # View user profile via `GET /auth/profile`
+- View user profile via `GET /auth/profile`
   API calls can be made using `curl`, [Httpie](https://httpie.org/), or a full-fledged API client like [Insomnia](https://insomnia.rest/) or [Postman](https://www.postman.com/).
 
 ## Adding a model
