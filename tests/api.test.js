@@ -13,7 +13,7 @@ const opts = { useMongoClient: true }; // remove this option if you use mongoose
 
 beforeAll(async (done) => {
   // special patch
-  process.env.MODELS_DIR = "test/test_models";
+  //   process.env.MODELS_DIR = "tests/test_models";
 
   mongoServer = new MongoMemoryServer();
   const mongoUri = await mongoServer.getUri();
@@ -36,7 +36,7 @@ afterAll(async (done) => {
 
 describe("TEST /api/post", function () {
   it("not logged in", function (done) {
-    request(app).get("/api/post").expect(404, done);
+    request(app).get("/api/user").expect(404, done);
   });
 
   let jwt;
@@ -55,7 +55,7 @@ describe("TEST /api/post", function () {
       .expect(200, done);
   });
   it("logged in - 200", function (done) {
-    request(app).get("/api/post").set("Authorization", jwt).expect(
+    request(app).get("/api/user").set("Authorization", jwt).expect(
       200,
       {
         a: 2,

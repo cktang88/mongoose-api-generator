@@ -3,17 +3,16 @@ const mongoose = require("mongoose");
 const path = require("path");
 // disable auto-pluralizing collection names
 mongoose.pluralize(null);
-// fix deprecation warnings
-if (process.env.NODE_ENV !== "test")
-  mongoose.connect(process.env.MONGODB_URL, {
-    useNewUrlParser: true,
-    useFindAndModify: false,
-    useCreateIndex: true,
-    useUnifiedTopology: true,
-  });
-console.log(process.env.MODELS_DIR);
+mongoose.connect(process.env.MONGODB_URL, {
+  // fix deprecation warnings
+  useNewUrlParser: true,
+  useFindAndModify: false,
+  useCreateIndex: true,
+  useUnifiedTopology: true,
+});
 // relative path to root of project
 const modelsDir = path.resolve(".", process.env.MODELS_DIR || "models");
+console.log(modelsDir);
 // custom user models
 const files = requireDir(modelsDir);
 console.log(files);
@@ -24,4 +23,4 @@ const models = Object.entries(files).map(([name, { schema, permissions }]) => {
   return mongoose.model(name, schema);
 });
 
-module.exports = { models, APIPermissions };
+module.exports = { mongoose, models, APIPermissions };
