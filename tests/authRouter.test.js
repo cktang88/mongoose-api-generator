@@ -39,7 +39,7 @@ describe("...", () => {
 });
 
 describe("GET /auth/profile", function () {
-  it("responds with json", function (done) {
+  it("returns 401", function (done) {
     request(app).get("/auth/profile").expect(401, done);
   });
 });
