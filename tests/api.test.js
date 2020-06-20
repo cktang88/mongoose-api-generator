@@ -8,6 +8,10 @@ let app;
 let mongoose;
 let mongoServer;
 
+const randEmail = () => `${Date.now()}@gmail.com`;
+let jwt;
+let owner_id;
+
 beforeAll(async (done) => {
   process.env.MODELS_DIR = "tests/test_models";
 
@@ -17,7 +21,39 @@ beforeAll(async (done) => {
   process.env.MONGODB_URL = mongoUri;
   mongoose = require("../framework/core/db").mongoose;
   app = require("../server");
-  server = app.listen(done);
+  server = app.listen();
+
+  const email = randEmail();
+  const setOwnerId = (res) => {
+    owner_id = res.body._id;
+  };
+  const setJWT = (res) => {
+    jwt = res.body.token;
+  };
+
+  // sign up and log in with a user
+  //   const loginFlow =
+  request(app)
+    .post("/auth/signup")
+    .send({
+      username: "john",
+      email,
+      password: "helloworld",
+    })
+    .expect(setOwnerId)
+    .expect(201)
+    .end((res) =>
+      request(app)
+        .post("/auth/login")
+        .send({
+          email,
+          password: "helloworld",
+        })
+        .set("Accept", "application/json")
+        .expect(setJWT)
+        .expect(200)
+        .end(done)
+    );
 });
 
 afterAll(async (done) => {
@@ -26,40 +62,7 @@ afterAll(async (done) => {
   server.close(done);
 });
 
-const randEmail = () => `${Date.now()}@gmail.com`;
-
 describe("TEST /api/post", function () {
-  let jwt;
-  let owner_id;
-  const email = randEmail();
-  // only applies to test below
-  beforeEach(function (done) {
-    // sign up and log in with a user
-    request(app)
-      .post("/auth/signup")
-      .send({
-        username: "john",
-        email,
-        password: "helloworld",
-      })
-      .expect((res) => {
-        owner_id = res.body._id;
-      })
-      .expect(201)
-      .then((res) => {
-        request(app)
-          .post("/auth/login")
-          .send({
-            email,
-            password: "helloworld",
-          })
-          .set("Accept", "application/json")
-          .expect((res) => {
-            jwt = res.body.token;
-          })
-          .expect(200, done);
-      });
-  });
   it("not logged in", function (done) {
     request(app).get("/api/user").expect(401, "Unauthorized", done);
   });
@@ -103,7 +106,7 @@ describe("TEST /api/post", function () {
       .get(`/api/post/${created_id}`)
       .set("Authorization", jwt)
       .expect((res) => {
-        res.body.created = "<date>";
+        delete res.body.created;
       })
       .expect(
         200,
@@ -120,16 +123,17 @@ describe("TEST /api/post", function () {
 
   it("update one", function (done) {
     request(app)
-      .patch("/api/post")
+      .patch(`/api/post/${created_id}`)
+      .send({})
       .set("Authorization", jwt)
       .expect(200, [], done);
   });
 
   it("remove one", function (done) {
     request(app)
-      .delete("/api/post")
+      .delete(`/api/post/${created_id}`)
       .set("Authorization", jwt)
-      .expect(400, "this endpoint is disabled.", done);
+      .expect(401, '"This endpoint is disabled."', done);
   });
   //   beforeEach((done) => {
   //     // test that permissions are respected by a non-owner user
@@ -146,7 +150,7 @@ describe("TEST /api/post", function () {
   //         owner_id = res.body._id;
   //       })
   //       .expect(201)
-  //       .then((res) => {
+  //       .end((res) => {
   //         request(app)
   //           .post("/auth/login")
   //           .send({
