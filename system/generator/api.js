@@ -1,6 +1,7 @@
-const express = require("express");
+const { Router } = require("express");
+const models = require("./models");
 
-module.exports = (Collection) => {
+const generateResource = (Collection) => {
   const create = (req, res) => {
     const newEntry = req.body;
     Collection.create(newEntry, (e, newEntry) => {
@@ -58,7 +59,7 @@ module.exports = (Collection) => {
     });
   };
 
-  let router = express.Router();
+  let router = Router();
 
   router.post("/", create);
   router.get("/", readMany);
@@ -68,3 +69,10 @@ module.exports = (Collection) => {
 
   return router;
 };
+
+let apiRouter = Router();
+// Autogenerate API endpoints for each model schema
+models.forEach((model) => {
+  apiRouter.use(`/${model.collection.collectionName}`, generateResource(model));
+});
+module.exports = apiRouter;

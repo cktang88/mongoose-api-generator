@@ -1,0 +1,26 @@
+const { Router } = require("express");
+
+// setup passport
+const { signup, login } = require("./auth");
+
+const userRouter = Router();
+
+userRouter.post("/signup", (req, res, next) => {
+  const { username, email, password } = req.body;
+  if (!username || !email || !password)
+    res
+      .status(400)
+      .send("Invalid input. Requires username, email, and password.");
+  return signup(req.body, res);
+});
+userRouter.post("/login", (req, res, next) => {
+  const { email, password } = req.body;
+  if (!email || !password)
+    res.status(400).send("Invalid input. Requires email and password.");
+  return login(req.body, res);
+});
+userRouter.get("/profile", (req, res, next) => {
+  res.send(req.user);
+});
+
+module.exports = userRouter;
