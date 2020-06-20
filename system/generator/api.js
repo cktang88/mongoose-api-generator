@@ -1,6 +1,6 @@
 const { Router } = require("express");
 const models = require("./models");
-const { jwtGuard } = require("../auth/auth");
+const { jwtAuthGuard } = require("../auth/auth");
 
 const generateResource = (Collection) => {
   const create = (req, res) => {
@@ -77,7 +77,7 @@ let apiRouter = Router();
 models.forEach((model) => {
   apiRouter.use(
     `/${model.collection.collectionName}`,
-    jwtGuard,
+    jwtAuthGuard,
     generateResource(model)
   );
 });

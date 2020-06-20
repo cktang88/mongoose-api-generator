@@ -1,6 +1,6 @@
 const { Router } = require("express");
 
-const { signup, login } = require("./auth");
+const { signup, login, jwtAuthGuard } = require("./auth");
 
 const authRouter = Router();
 
@@ -18,8 +18,8 @@ authRouter.post("/login", async (req, res, next) => {
     res.status(400).send("Invalid input. Requires email and password.");
   await login(req.body, res);
 });
-authRouter.get("/profile", (req, res, next) => {
-  res.send(req.user || "hi");
+authRouter.get("/profile", jwtAuthGuard, (req, res, next) => {
+  res.send(req.user);
 });
 
 module.exports = authRouter;

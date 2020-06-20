@@ -76,5 +76,5 @@ passport.use(
 module.exports = {
   signup,
   login,
-  jwtGuard: passport.authenticate("jwt", { session: false }),
+  jwtAuthGuard: passport.authenticate("jwt", { session: false }),
 };
