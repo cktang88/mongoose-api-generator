@@ -22,6 +22,8 @@ yarn install
 yarn start
 ```
 
+<<<<<<< HEAD
+
 ## Authentication
 
 - Sign up:
@@ -40,7 +42,9 @@ yarn start
     - returns a JWT token, eg. `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlZWQ3OWM1N2MxZmEzNzExODZlZjljOSIsInVzZXJuYW1lIjoiYWIiLCJpYXQiOjE1OTI2MjI1MDAsImV4cCI6MTU5MjY1ODUwMH0.-eFJ1FcotHsjtmgUaE3f-6fFz_7y8c2dCNqhH8E5S6A`
   - Pass the token in the `Authorization` HTTP header for each subsequent API request.
 
-- View user profile via `GET /auth/profile`
+- # View user profile via `GET /auth/profile`
+  API calls can be made using `curl`, [Httpie](https://httpie.org/), or a full-fledged API client like [Insomnia](https://insomnia.rest/) or [Postman](https://www.postman.com/).
+  > > > > > > > 8d01837d53987ac29a901a6836c37abd802158ea
 
 ## Adding a model
 
@@ -72,8 +76,15 @@ Delete one
 
 ## Implementing permissions
 
+Permissions enable you to implement granular restrictions on who can perform an action on a resource.
+
 - need to have an `owner_id: String` field in the Mongoose Schema. This field is automatically populated whenever a new object is created via the API endpoint.
 - Export a `permissions` object that may override `list/get/update/remove` fields (by default all of these are set to `PUBLIC`)
+
+  - possible values (exported from `"../system/auth/permissions"`):
+    - `PUBLIC`: anyone can perform this action on this resource
+    - `OWNER`: only the creator of the resource can perform this action
+    - `NONE`: this action is disabled for this object
 
 - Example:
 
