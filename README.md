@@ -22,9 +22,31 @@ yarn install
 yarn start
 ```
 
+## Authentication
+
+- Sign up:
+  - `POST /auth/signup`
+  - Sample request body:
+    ```
+    {"username": "bob", "email": "bob@gmail.com", "password": "badpw"}
+    ```
+- Login:
+
+  - `POST /auth/login`
+  - Sample request body:
+    ```
+    {"email": "bob@gmail.com", "password": "badpw"}
+    ```
+    - returns a JWT token, eg. `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlZWQ3OWM1N2MxZmEzNzExODZlZjljOSIsInVzZXJuYW1lIjoiYWIiLCJpYXQiOjE1OTI2MjI1MDAsImV4cCI6MTU5MjY1ODUwMH0.-eFJ1FcotHsjtmgUaE3f-6fFz_7y8c2dCNqhH8E5S6A`
+  - Pass the token in the `Authorization` HTTP header for each subsequent API request.
+
+- View user profile via `GET /auth/profile`
+
 ## Adding a model
 
 Simply create a new file that exports a mongoose model to `./models`.
+
+**NOTE: these endpoints cannot be accessed unless you are signed in.**
 The generated URL endpoints will be:
 
 Create:
@@ -47,27 +69,6 @@ Update one
 Delete one
 
 - `DELETE /api/{fileName}/:id`
-
-**NOTE: these endpoints cannot be accessed unless you are signed in.**
-
-## Authentication
-
-- Sign up:
-  - `POST /auth/signup`
-  - Sample request body:
-    ```
-    {"username": "bob", "email": "bob@gmail.com", "password": "badpw"}
-    ```
-- Login:
-
-  - `POST /auth/login`
-  - Sample request body:
-    ```
-    {"email": "bob@gmail.com", "password": "badpw"}
-    ```
-  - returns a JWT token, eg.(`Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlZWQ3OWM1N2MxZmEzNzExODZlZjljOSIsInVzZXJuYW1lIjoiYWIiLCJpYXQiOjE1OTI2MjI1MDAsImV4cCI6MTU5MjY1ODUwMH0.-eFJ1FcotHsjtmgUaE3f-6fFz_7y8c2dCNqhH8E5S6A` which should be pasted in the `Authorization` HTTP header for each subsequent API request.
-
-- View user profile via `GET /auth/profile`
 
 ## Implementing permissions
 
