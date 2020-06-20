@@ -47,9 +47,17 @@ Delete one
 
 - `DELETE /api/{fileName}/:id`
 
+NOTE: these endpoints are all hidden unless you are signed in.
+
+## Authentication
+
+- Signup via `/auth/signup` (email/password/username)
+- Login via `/auth/login` --> returns a token, which should be pasted in the `Authorization` HTTP header for each subsequent API request.
+- View user profile via `/auth/profile`
+
 ## Implementing permissions
 
-- need to have an `owner_id: String` field in the Mongoose Schema.
+- need to have an `owner_id: String` field in the Mongoose Schema. This field is automatically populated whenever a new object is created via the API endpoint.
 - Export a `permissions` object that may override `list/get/update/remove` fields (by default all of these are set to `PUBLIC`)
 
 - Example:
@@ -85,3 +93,4 @@ module.exports = { schema, permissions };
    - enable extensibility for login object? (eg. phone num, descript, other meta fields)
 3. sanitize all inputs in express middleware...
 4. support listing with filtering?
+5. auto-add `owner_id: String` and `{ strict: "throw" }` using Mongoose discriminators for schema inheritance?

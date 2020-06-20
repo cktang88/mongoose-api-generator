@@ -6,6 +6,10 @@ const { PUBLIC, OWNER, NONE } = require("../auth/permissions");
 const generateResource = (Collection, allowed) => {
   const create = (req, res) => {
     const newEntry = req.body;
+    // TODO: sanitize req.body!!!
+
+    // set owner automatically
+    newEntry.owner_id = req.user._id;
     Collection.create(newEntry, (e, newEntry) => {
       if (e) {
         console.log(`Error inserting: `, e.name, e.message);
@@ -44,6 +48,7 @@ const generateResource = (Collection, allowed) => {
 
   const update = (req, res) => {
     const changedEntry = req.body;
+    // TODO: sanitize req.body!!!
     Collection.findOneAndUpdate(
       { _id: req.params._id },
       { $set: changedEntry },
