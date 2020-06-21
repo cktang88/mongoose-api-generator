@@ -20,11 +20,11 @@
     "husky": "^4.2.5",
     "jest": "^26.0.1",
     "mongodb-memory-server": "^6.6.1",
-    "node-dev": "^4.0.0",
+    "nodemon": "^2.0.4",
     "supertest": "^4.0.2"
   },
   "scripts": {
-    "start": "node-dev server.js",
+    "start": "nodemon server.js",
     "test": "jest --silent",
     "test-debug": "jest --detectOpenHandles --runInBand"
   },

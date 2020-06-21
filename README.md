@@ -113,6 +113,7 @@ module.exports = { schema, permissions };
 ## Tech used
 
 - Mongoose, Express, Passport
+- `Nodemon` is used for hot-reloading instead of `node-dev` because the files are dynamically required, so file-watching is needed to identify new files being added but not specifically required in `./models`.
 
 ## TODOs
 
