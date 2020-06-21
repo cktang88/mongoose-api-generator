@@ -1,16 +1,19 @@
-const { MongoMemoryServer } = require("mongodb-memory-server");
-const request = require("supertest");
+import { MongoMemoryServer } from "mongodb-memory-server";
+import request from "supertest";
+import { Mongoose } from "mongoose";
+import { Express } from "express";
 
 // May require additional time for downloading MongoDB binaries
 // jest.DEFAULT_TIMEOUT_INTERVAL = 600000;
+//@ts-ignore
 let server;
-let app;
-let mongoose;
-let mongoServer;
+let app: Express;
+let mongoose: Mongoose;
+let mongoServer: MongoMemoryServer;
 
 const randEmail = () => `${Date.now()}@gmail.com`;
-let jwt;
-let owner_id;
+let jwt: string;
+let owner_id: string;
 
 beforeAll(async (done) => {
   process.env.MODELS_DIR = "tests/test_models";
@@ -24,15 +27,16 @@ beforeAll(async (done) => {
   server = app.listen();
 
   const email = randEmail();
-  const setOwnerId = (res) => {
-    owner_id = res.body._id;
+  const setOwnerId = (res: Response) => {
+    //@ts-ignore
+    owner_id = res.body?._id;
   };
-  const setJWT = (res) => {
-    jwt = res.body.token;
+  const setJWT = (res: Response) => {
+    //@ts-ignore
+    jwt = res.body?.token;
   };
 
   // sign up and log in with a user
-  //   const loginFlow =
   request(app)
     .post("/auth/signup")
     .send({
@@ -59,6 +63,7 @@ beforeAll(async (done) => {
 afterAll(async (done) => {
   await mongoose.disconnect();
   await mongoServer.stop();
+  //@ts-ignore
   server.close(done);
 });
 
@@ -67,7 +72,7 @@ describe("TEST /api/post", function () {
     request(app).get("/api/user").expect(401, "Unauthorized", done);
   });
 
-  let created_id;
+  let created_id: string;
   it("bad create one input fails", function (done) {
     request(app)
       .post("/api/post")
@@ -126,6 +131,7 @@ describe("TEST /api/post", function () {
       .get(`/api/post`)
       .set("Authorization", jwt)
       .expect((res) => {
+        //@ts-ignore
         res.body.forEach((e) => delete e.created);
       })
       .expect(

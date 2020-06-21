@@ -16,12 +16,20 @@
     "require-dir": "^1.2.0"
   },
   "devDependencies": {
+    "@types/express": "^4.17.6",
+    "@types/jest": "^26.0.0",
+    "@types/mongoose": "^5.7.27",
+    "@types/supertest": "^2.0.9",
     "dotenv": "^8.2.0",
     "husky": "^4.2.5",
     "jest": "^26.0.1",
     "mongodb-memory-server": "^6.6.1",
     "nodemon": "^2.0.4",
-    "supertest": "^4.0.2"
+    "supertest": "^4.0.2",
+    "ts-jest": "^26.1.0",
+    "ts-node": "^8.10.2",
+    "ts-node-dev": "^1.0.0-pre.49",
+    "typescript": "^3.9.5"
   },
   "scripts": {
     "start": "nodemon --watch models server.js",
