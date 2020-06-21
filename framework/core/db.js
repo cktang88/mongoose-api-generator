@@ -35,10 +35,7 @@ let str = `enum Resources {
 ${files.map((name) => `${name} = "${name}"\n`)}
 } export default Resources;`;
 try {
-  const dir = path.join(
-    `${process.cwd()}`,
-    RESOURCES_FILE_PATH || "client/src"
-  );
+  const dir = path.join(`${process.cwd()}`, RESOURCES_FILE_DIR || "client/src");
   if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
   const fileName = dir + "/apiResources.ts";
   fs.writeFileSync(fileName, str);
