@@ -1,12 +1,15 @@
-const { MongoMemoryServer } = require("mongodb-memory-server");
-const request = require("supertest");
+import { MongoMemoryServer } from "mongodb-memory-server";
+import request from "supertest";
+import { Mongoose } from "mongoose";
+import { Express } from "express";
 
 // May require additional time for downloading MongoDB binaries
 // jest.DEFAULT_TIMEOUT_INTERVAL = 600000;
+//@ts-ignore
 let server;
-let app;
-let mongoose;
-let mongoServer;
+let app: Express;
+let mongoose: Mongoose;
+let mongoServer: MongoMemoryServer;
 
 beforeAll(async (done) => {
   process.env.MODELS_DIR = "tests/test_models";
@@ -21,6 +24,7 @@ beforeAll(async (done) => {
 afterAll(async (done) => {
   await mongoose.disconnect();
   await mongoServer.stop();
+  //@ts-ignore
   server.close(done);
 });
 
@@ -115,7 +119,7 @@ describe("GET /auth/profile", function () {
   it("not logged in - 401", function (done) {
     request(app).get("/auth/profile").expect(401, done);
   });
-  let jwt;
+  let jwt: string;
 
   // only applies to test below
   beforeEach(function (done) {

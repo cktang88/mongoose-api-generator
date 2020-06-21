@@ -1,14 +1,14 @@
-const mongoose = require("mongoose");
-const { MongoMemoryServer } = require("mongodb-memory-server");
-const request = require("supertest");
-const http = require("http");
-
+import { MongoMemoryServer } from "mongodb-memory-server";
+import request from "supertest";
+import mongoose from "mongoose";
+import http from "http";
 const app = require("../server");
 
 // May require additional time for downloading MongoDB binaries
 // jest.DEFAULT_TIMEOUT_INTERVAL = 600000;
+//@ts-ignore
 let server;
-let mongoServer;
+let mongoServer: MongoMemoryServer;
 
 beforeAll(async (done) => {
   mongoServer = new MongoMemoryServer();
@@ -26,6 +26,7 @@ beforeAll(async (done) => {
 afterAll(async (done) => {
   await mongoose.disconnect();
   await mongoServer.stop();
+  //@ts-ignore
   server.close(done);
 });
 describe("starts memory server", () => {
