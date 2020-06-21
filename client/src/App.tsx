@@ -18,7 +18,9 @@ const App = ({}: AppProps) => {
         // const box2 = await api.CREATE(Resource.box, { height: 4 });
         await signup('bob', email, password);
         await login(email, password);
-        const box = await api.CREATE(Resource.box, { height: 4 });
+        let box = await api.CREATE(Resource.box, { height: 4 });
+        console.log(box);
+        box = await api.GET(Resource.box, box._id);
         setBox(box);
       } catch (err) {
         console.log(err);

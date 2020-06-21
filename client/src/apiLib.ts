@@ -12,14 +12,14 @@ let jwtHeader: string;
 
 async function proxyFetch(
   method = 'GET',
-  url = '',
-  data = {},
+  url: string,
+  data: any,
   authHeader = '',
 ) {
   const fullURL = `${base}/${url}`;
   console.log(`${method} ${fullURL}`);
   // Default options are marked with *
-  let result = await fetch(fullURL, {
+  const opts: RequestInit = {
     method: method, // *GET, POST, PUT, DELETE, etc.
     mode: 'cors', // no-cors, *cors, same-origin
     cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
@@ -31,8 +31,11 @@ async function proxyFetch(
     },
     redirect: 'follow', // manual, *follow, error
     referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
-    body: JSON.stringify(data), // body data type must match "Content-Type" header
-  }).then((res) => res.json()).catch(err=> console.log(err))
+  };
+  if (data) opts.body = JSON.stringify(data);
+  let result = await fetch(fullURL, opts)
+    .then((res) => res.json())
+    .catch((err) => console.log(err));
   return result;
 }
 
@@ -57,7 +60,7 @@ enum Resource {
   user = 'user',
 }
 
-const apiHelper = async (
+const route = async (
   method: string,
   resource: Resource,
   id?: string,
@@ -70,13 +73,12 @@ const apiHelper = async (
   return await proxyFetch(method, url, data, jwtHeader);
 };
 const api = {
-  CREATE: (resource: Resource, data: any) =>
-    apiHelper('POST', resource, '', data),
-  LIST: (resource: Resource) => apiHelper('GET', resource),
-  GET: (resource: Resource, id: string) => apiHelper('GET', resource, id),
+  CREATE: (resource: Resource, data: any) => route('POST', resource, '', data),
+  LIST: (resource: Resource) => route('GET', resource),
+  GET: (resource: Resource, id: string) => route('GET', resource, id),
   UPDATE: (resource: Resource, id: string, data: any) =>
-    apiHelper('PATCH', resource, id, data),
-  REMOVE: (resource: Resource, id: string) => apiHelper('DELETE', resource, id),
+    route('PATCH', resource, id, data),
+  REMOVE: (resource: Resource, id: string) => route('DELETE', resource, id),
 };
 
 export { api, Resource, signup, login };
