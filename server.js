@@ -5,9 +5,13 @@ const bodyParser = require("body-parser");
 const authRouter = require("./framework/auth/authRouter");
 const apiRouter = require("./framework/core/api.js");
 const pino = require("pino-http")();
+const cors = require("cors");
 
 const app = express();
 const port = process.env.PORT || 5000;
+
+// allowed for all origins
+app.use(cors());
 
 // Middleware
 app.use(bodyParser.json());
