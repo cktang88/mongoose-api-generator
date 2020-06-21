@@ -33,7 +33,7 @@
     "typescript": "^3.9.5"
   },
   "scripts": {
-    "start": "nodemon --watch models server.js",
+    "start": "nodemon --watch models --watch framework server.js",
     "test": "jest --silent",
     "test-debug": "jest --detectOpenHandles --runInBand"
   },

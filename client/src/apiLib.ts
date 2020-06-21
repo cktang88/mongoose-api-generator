@@ -1,6 +1,8 @@
 const base = 'http://localhost:5000';
 let jwtHeader: string;
 
+import Resource from './apiResources';
+
 // interface Result {
 //   error: any;
 //   result: any;
@@ -53,12 +55,6 @@ const login = async (email: string, password: string) => {
     return jwtHeader;
   });
 };
-
-enum Resource {
-  box = 'box',
-  joke = 'joke',
-  user = 'user',
-}
 
 const route = async (
   method: string,
