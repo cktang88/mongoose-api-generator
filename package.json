@@ -24,7 +24,7 @@
     "supertest": "^4.0.2"
   },
   "scripts": {
-    "start": "nodemon server.js",
+    "start": "nodemon --watch models server.js",
     "test": "jest --silent",
     "test-debug": "jest --detectOpenHandles --runInBand"
   },
