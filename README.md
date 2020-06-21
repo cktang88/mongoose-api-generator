@@ -48,9 +48,9 @@ There are two custom files included to make API requests easier.
 
 Sample usage:
 
-````js
-import { signup, login, api, Resource } from './apiLib';
-await signup('bob', email, password);
+```js
+import { signup, login, api, Resource } from "./apiLib";
+await signup("bob", email, password);
 await login(email, password);
 // create a new box
 let box = await api.CREATE(Resource.box, { height: 4 });
@@ -150,7 +150,7 @@ const permissions = {
 };
 
 module.exports = { schema, permissions };
-````
+```
 
 ## Tech used
 
