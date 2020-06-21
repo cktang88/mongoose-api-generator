@@ -1,54 +1,51 @@
-const base = 'localhost:5000';
+const base = 'http://localhost:5000';
 let jwtHeader: string;
 
-const handle = (promise: Promise<any>) =>
-  promise
-    .then((data) => ({ error: null, data }))
-    .catch((error) => Promise.resolve({ error, data: null }));
+// interface Result {
+//   error: any;
+//   result: any;
+// }
+// const handle = (promise: Promise<any>): Promise<Result> =>
+//   promise
+//     .then((result) => ({ error: null, result }))
+//     .catch((error) => Promise.resolve({ error, result: null }));
 
 async function proxyFetch(
+  method = 'GET',
   url = '',
   data = {},
-  method = 'GET',
   authHeader = '',
 ) {
+  const fullURL = `${base}/${url}`;
+  console.log(`${method} ${fullURL}`);
   // Default options are marked with *
-  return await handle(
-    fetch(`${base}/${url}`, {
-      method: method, // *GET, POST, PUT, DELETE, etc.
-      mode: 'cors', // no-cors, *cors, same-origin
-      cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
-      credentials: 'same-origin', // include, *same-origin, omit
-      headers: {
-        'Content-Type': 'application/json',
-        // 'Content-Type': 'application/x-www-form-urlencoded',
-        Authorization: authHeader,
-      },
-      redirect: 'follow', // manual, *follow, error
-      referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
-      body: JSON.stringify(data), // body data type must match "Content-Type" header
-    }),
-  )
-    .then((res) => {
-      console.log(`${method} ${url}: ${res}`);
-      return res.data.json();
-    })
-    .catch((error) => {
-      console.log(error);
-    });
+  let result = await fetch(fullURL, {
+    method: method, // *GET, POST, PUT, DELETE, etc.
+    mode: 'cors', // no-cors, *cors, same-origin
+    cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+    credentials: 'same-origin', // include, *same-origin, omit
+    headers: {
+      'Content-Type': 'application/json',
+      // 'Content-Type': 'application/x-www-form-urlencoded',
+      Authorization: authHeader,
+    },
+    redirect: 'follow', // manual, *follow, error
+    referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+    body: JSON.stringify(data), // body data type must match "Content-Type" header
+  }).then((res) => res.json()).catch(err=> console.log(err))
+  return result;
 }
 
-const postData = async (url = '', data = {}) => {
-  console.log('posting', url, data);
-  return await proxyFetch(url, data, 'POST');
-};
-
 const signup = async (username: string, email: string, password: string) => {
-  return await postData('/auth/signup', { username, email, password });
+  return proxyFetch('POST', 'auth/signup', {
+    username,
+    email,
+    password,
+  });
 };
 
 const login = async (email: string, password: string) => {
-  return await postData('/auth/login', { email, password }).then((res) => {
+  return proxyFetch('POST', 'auth/login', { email, password }).then((res) => {
     jwtHeader = res.token;
     return jwtHeader;
   });

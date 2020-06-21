@@ -4,26 +4,27 @@ import './App.css';
 import { signup, login, api, Resource } from './apiLib';
 
 interface AppProps {}
+const randEmail = () => `${Date.now()}@gmail.com`;
 
 const App = ({}: AppProps) => {
-  const email = 'bob@gmail.com';
+  let email = 'bob@gmail.com';
+  email = randEmail();
   const password = '123';
 
   const [box, setBox] = useState();
   useEffect(() => {
     (async () => {
       try {
-        const res = await signup('bob', email, password);
-        console.log('signed up', res);
+        // const box2 = await api.CREATE(Resource.box, { height: 4 });
+        await signup('bob', email, password);
         await login(email, password);
-        console.log('logged in');
         const box = await api.CREATE(Resource.box, { height: 4 });
         setBox(box);
       } catch (err) {
         console.log(err);
       }
     })();
-  });
+  }, []);
 
   return (
     <div className="App">
