@@ -1,6 +1,4 @@
-const { Router } = require("express");
-const { models, APIPermissions } = require("./db");
-const { jwtAuthGuard } = require("../auth/auth");
+//@ts-check
 const { PUBLIC, OWNER, NONE } = require("../auth/permissions");
 
 const generateResource = (Collection, allowed) => {
@@ -113,28 +111,7 @@ const generateResource = (Collection, allowed) => {
     };
   };
 
-  let router = Router();
-
-  // everyone allowed to create?
-  router.post("/", create);
-  // list all is special - will actually modify to filter all that is by owner only...
-  router.get("/", list);
-
-  router.get("/:_id", checkOwnerPermission(allowed.get), get);
-  router.patch("/:_id", checkOwnerPermission(allowed.update), update);
-  router.delete("/:_id", checkOwnerPermission(allowed.remove), remove);
-
-  return router;
+  return { create, list, get, update, remove, checkOwnerPermission, allowed };
 };
 
-let apiRouter = Router();
-
-// Autogenerate API endpoints for each model schema
-models.forEach((model) => {
-  const name = model.collection.collectionName;
-  const permissions = APIPermissions[name];
-  console.log(`creating API endpoints for /api/${name}`);
-  // the jwtAuthGuard populates `req.user` for all child routes
-  apiRouter.use(`/${name}`, jwtAuthGuard, generateResource(model, permissions));
-});
-module.exports = apiRouter;
+module.exports = generateResource;

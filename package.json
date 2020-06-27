@@ -14,6 +14,7 @@
     "passport-jwt": "^4.0.0",
     "passport-local": "^1.0.0",
     "pino-http": "^5.2.0",
+    "replace-in-file": "^6.1.0",
     "require-dir": "^1.2.0"
   },
   "devDependencies": {

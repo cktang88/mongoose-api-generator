@@ -1,6 +1,6 @@
 enum Resources {
-box = "box"
-,joke = "joke"
+post = "post"
+,rect = "rect"
 ,user = "user"
 
 } export default Resources;

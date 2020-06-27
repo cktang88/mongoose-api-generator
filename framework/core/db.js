@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const path = require("path");
 const fs = require("fs");
 
-const { MONGODB_URL, MODELS_DIR, RESOURCES_FILE_PATH } = process.env;
+const { MONGODB_URL, MODELS_DIR, RESOURCES_FILE_DIR } = process.env;
 
 // disable auto-pluralizing collection names
 mongoose.pluralize(null);
