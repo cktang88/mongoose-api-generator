@@ -1,7 +1,8 @@
 //@ts-check
 const { Router } = require("express");
-const generatorPath = `${process.cwd()}/framework/core/apiGenerator.js`;
-const generateResource = require(generatorPath);
+const corePath = `${process.cwd()}/framework/core`;
+const generateResource = require(`${corePath}/apiGenerator.js`);
+const { models } = require(`${corePath}/db.js`);
 const {
   create,
   list,
