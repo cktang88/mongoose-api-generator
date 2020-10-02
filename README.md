@@ -31,7 +31,7 @@ RESOURCES_FILE_DIR = 'client/src'
 Then:
 
 ```bash
-yarn install
+yarn
 yarn start
 ```
 
